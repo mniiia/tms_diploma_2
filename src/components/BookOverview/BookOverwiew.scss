@@ -1,0 +1,78 @@
+.book__title{
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.book__information{
+    width: 100%;
+    margin: auto;
+    font-size: 20px;
+    display: flex;
+    .book__cover{
+        width: 50%;
+        min-height: 900px;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .book__short-information-container{
+        width: 30%;
+        align-content: center;
+        justify-content: center;
+        .book__short-information{
+            background: lightgrey;
+            border-radius: 10px;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            .information-row{
+                display: flex;
+                justify-content: space-between;
+                margin: 20px;
+            }
+            .book__price{
+                font-size: 30px;
+                align-self: center;
+            }
+            .left-text{
+    
+            }
+            .right-text{
+    
+            }
+        }
+        .book__cart-btn{
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+            padding: 10px 30px;
+            font-size: 50px;
+            background: black;
+            color:  white;
+        }
+    }
+
+
+}
+.book__description{
+    font-size: 30px;
+    .book__buttons-container{
+        .book__button{
+            padding: 10px;
+            font-size: 30px;
+            margin: 20px;
+            text-transform: uppercase;
+            background: none;
+        }
+        .book__button.active{
+            background: lightgrey;
+        }
+    }
+    .description{
+        min-height: 150px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background:lightgrey
+    }
+}
+

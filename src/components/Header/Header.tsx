@@ -1,17 +1,17 @@
 import { SearchForm } from '../SearchForm'
 import { CiHeart, CiShoppingCart } from 'react-icons/ci'
-import { Container } from '../Container/Container'
+import { NavLink } from 'react-router-dom'
 import './Header.scss'
 
 export function Header () {
   return (
         <header className="header">
             <div className='header-container'>
-                <div className="name">BOOKSTORE</div>
+                <NavLink to='/new' className="name">BOOKSTORE</NavLink>
                 <SearchForm></SearchForm>
                 <div className="button-group">
-                    <div className="favorite icon">{<CiHeart size={40}/>}</div>
-                    <div className="cart icon"><CiShoppingCart size={40}/></div>
+                    <NavLink to='/favorite' className="favorite icon">{<CiHeart size={40}/>}</NavLink>
+                    <NavLink to='/cart' className="cart icon"><CiShoppingCart size={40}/></NavLink>
                 </div>
             </div>
         </header>

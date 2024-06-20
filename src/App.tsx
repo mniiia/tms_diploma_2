@@ -1,15 +1,15 @@
 import './App.scss'
-import { Header } from './components/Header/Header'
-
-import { BookCard } from './components/BookCard/BookCard'
-import { AllBooksForm } from './components/AllBooksForm/AllBooksForm'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './router'
+import { store } from './redux/store'
+import { Provider } from 'react-redux'
 
 function App () {
   return (
-    <>
-        <Header></Header>
-        <AllBooksForm></AllBooksForm>
-    </>
+    <Provider store={store}>
+      <RouterProvider router={router}>
+      </RouterProvider>
+    </Provider>
   )
 }
 
