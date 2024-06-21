@@ -7,7 +7,7 @@ export function Header () {
   return (
         <header className="header">
             <div className='header-container'>
-                <NavLink to='/new' className="name">BOOKSTORE</NavLink>
+                <NavLink to='/' className="name">BOOKSTORE</NavLink>
                 <SearchForm></SearchForm>
                 <div className="button-group">
                     <NavLink to='/favorite' className="favorite icon">{<CiHeart size={40}/>}</NavLink>

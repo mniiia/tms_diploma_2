@@ -14,7 +14,7 @@ export function NewBooksList () {
     dispatch(fetchNewBooks())
   }, [])
 
-  interface IBook{
+  export interface IBook{
     image:string,
     isbn13:string,
     price:string,
@@ -23,13 +23,13 @@ export function NewBooksList () {
     url:string
   }
 
-  function renderBookCard (booksList:IBook[]) {
+  function BookCardList (booksList:IBook[]) {
     console.log(booksList)
 
-    return booksList.map(renderBookcard2)
+    return booksList.map(renderBookcard)
   }
 
-  function renderBookcard2 (book:IBook) {
+  function renderBookcard (book:IBook) {
     console.log(`id=${book.isbn13}, image=${book.image}, title=${book.title}`)
 
     return <BookCard key={book.isbn13} id={book.isbn13} image={book.image} title={book.title} subtitle={book.subtitle} price={book.price}></BookCard>
@@ -41,7 +41,7 @@ export function NewBooksList () {
     return (
       <Container>
           <div className='books-container'>
-            {renderBookCard(answer.books)}
+            {BookCardList(answer.books)}
           </div>
       </Container>
     )

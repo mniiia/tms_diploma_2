@@ -1,6 +1,7 @@
+import { CartBooksList } from '../CartBooksList/CartBooksList'
+
 export function CartBooks () {
   return (
-          <div>Loading</div>
-          // убрать потом
+          <CartBooksList></CartBooksList>
   )
 }
