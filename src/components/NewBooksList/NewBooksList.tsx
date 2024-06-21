@@ -14,7 +14,7 @@ export function NewBooksList () {
     dispatch(fetchNewBooks())
   }, [])
 
-  export interface IBook{
+  interface IBook{
     image:string,
     isbn13:string,
     price:string,

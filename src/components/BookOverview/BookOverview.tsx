@@ -15,6 +15,7 @@ export interface IBookDetails {
   language: string;
   desc: string;
   isbn13:string;
+  year:string;
 }
 
 function addBookToCart (book:IBookDetails) {
