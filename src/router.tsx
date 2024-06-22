@@ -11,6 +11,10 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        element: <div>DODELAT</div>
+      },
+      {
+        path: '/page/:id',
         element: <NewBooks/>
       },
       {

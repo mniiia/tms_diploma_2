@@ -12,12 +12,12 @@ interface CardProps{
 }
 
 export function BookCard ({ id, image, title, subtitle, price, children }:CardProps) {
-  console.log(image && title && subtitle && price)
-
   if (title && price) {
     return (
         <NavLink to={`/book/${id}`} className="book-card" id={id}>
-            <div className="book-card__cover" style={{ backgroundImage: `url(${image})` }}>
+            <div className='book-card__cover-container'>
+              <div className="book-card__cover" style={{ backgroundImage: `url(${image})` }}>
+              </div>
             </div>
             <h4 className="book-card__title">{title}</h4>
             <div className="book-card__subtitle">{subtitle}</div>

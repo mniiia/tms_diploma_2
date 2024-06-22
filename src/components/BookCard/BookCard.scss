@@ -1,15 +1,26 @@
 .book-card{
-    margin: 40px;
-    width: 85%;
+    margin: 40px auto;
+    width: 80%;
     padding: 20px;
     background: lightgrey;
     border-radius: 10px;
-    min-height: 500px;
-    .book-card__cover{
-        min-height: 400px;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
+    height: 600px;
+    .book-card__cover-container{
+        width: 70%;
+        margin: auto;
+        overflow: hidden;
+        height: 400px;
+        box-shadow: 0 0 0px 5px lightgrey;
+        border-radius: 5%;
+        .book-card__cover{
+            border-radius: 10%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            transform: scale(1.4);
+        }
+
     }
     .book-card__title{
         margin-top: 30px;

@@ -1,0 +1,32 @@
+.pagination-container{
+    width: 30%;
+    margin: auto;
+    .pagination{
+        list-style-type: none;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin: auto;
+        background: lightgray;
+        padding: 10px;
+        border-radius: 10px;
+        .page-item{
+    
+            .page-link{
+                font-size: 30px;
+                font-weight: bold;
+                padding: 3px;
+                color: black;
+            }
+        }
+        .page-item.active{
+            .page-link{
+                border: 1px solid black;
+                border-radius: 30%;
+                background: black;
+                color: lightgrey;
+            }
+        }
+    }
+
+}

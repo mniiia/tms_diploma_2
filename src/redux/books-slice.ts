@@ -4,7 +4,6 @@ import { requestNewBooks } from '../service/book'
 export const fetchNewBooks = createAsyncThunk('books/fetchNewBooks', async (_, { rejectWithValue }) => {
   try {
     const post = await requestNewBooks()
-    console.log(post)
     return post
   } catch (e) {
     if (e instanceof Error) {
@@ -27,14 +26,18 @@ interface IBooksState {
   answer: {
     books: IBook[];
   } | object;
+  pages:number
   isLoading: boolean;
   error: string | null;
+  amountOnPage:number;
 }
 
 const initialState: IBooksState = {
   answer: {},
   isLoading: false,
-  error: null
+  error: null,
+  pages: 0,
+  amountOnPage: 9
 }
 
 const booksSlice = createSlice({
@@ -50,6 +53,7 @@ const booksSlice = createSlice({
       .addCase(fetchNewBooks.fulfilled, (state, action) => {
         state.isLoading = false
         state.answer = action.payload
+        state.pages = Math.ceil((action.payload.total / 9))
       })
       .addCase(fetchNewBooks.rejected, (state, action) => {
         state.isLoading = false

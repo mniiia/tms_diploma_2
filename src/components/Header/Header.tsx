@@ -23,8 +23,6 @@ export function Header () {
     return amount
   }
 
-  console.log(useSelector((state:RootState) => state.cart))
-
   const [booksAmount, setBooksAmount] = useState<number>(amount)
 
   useEffect(() => {
@@ -35,7 +33,7 @@ export function Header () {
   return (
         <header className="header">
             <div className='header-container'>
-                <NavLink to='/' className="name">BOOKSTORE</NavLink>
+                <NavLink to='/page/1' className="name">BOOKSTORE</NavLink>
                 <SearchForm></SearchForm>
                 <div className="button-group">
                     <NavLink to='/favorite' className="favorite icon">{<CiHeart size={40}/>}</NavLink>
