@@ -9,4 +9,14 @@
 		color: white;
 		text-decoration: none;
 	}
+
+	.app-page{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100vh;
+		.app-body{
+
+		}
+	}
 }

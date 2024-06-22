@@ -53,7 +53,19 @@
 }
 
 .cart-card__calculator{
-    margin: 20px auto;
     font-size: 40px;
-    width: 50%;
+    position: absolute;
+    background: lightgrey;
+    border-radius: 10px;
+    padding: 5px;
+    top:0;
+    right: 0;
+}
+
+.cart-empty{
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 40px;
+    text-transform: uppercase;
 }

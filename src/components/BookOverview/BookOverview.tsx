@@ -4,7 +4,9 @@ import { AppDispatch, RootState } from '../../redux/store'
 import React, { useEffect, useState } from 'react'
 import { fetchBook } from '../../redux/book-slice'
 import { useParams } from 'react-router-dom'
+import { addAmount } from '../../redux/cart-amount-slice'
 import './BookOverwiew.scss'
+import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
 
 export interface IBookDetails {
   title: string;
@@ -18,19 +20,25 @@ export interface IBookDetails {
   year:string;
 }
 
+export interface IBookWithAmount extends IBookDetails{
+  amount?:number;
+}
+
 function addBookToCart (book:IBookDetails) {
   if (localStorage.getItem('cart')) {
     console.log(localStorage.getItem('cart'))
     const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('cart') as string) as IBookDetails[]
     console.log(localStorageData)
-    localStorageData.push(book)
+    const bookWithAmount:IBookWithAmount = { ...book, amount: 1 }
+    localStorageData.push(bookWithAmount)
     localStorage.setItem('cart', JSON.stringify(localStorageData))
-    return
   }
-
-  const booksList:IBookDetails[] = []
-  booksList.push(book)
-  localStorage.setItem('cart', JSON.stringify(booksList))
+  // const bookWithAmount:IBookDetails = book
+  // bookWithAmount.amount = 1
+  // console.log(bookWithAmount)
+  // const booksList:IBookDetails[] = []
+  // booksList.push(bookWithAmount)
+  // localStorage.setItem('cart', JSON.stringify(booksList))
 }
 
 export function BookOverview () {
@@ -41,12 +49,26 @@ export function BookOverview () {
   console.log(previousId, id)
   const [selectedButton, setSelectedButton] = useState<string>('description-btn')
 
+  function checkInCart () {
+    const books:IBookWithAmount[] = getCartFromLc()
+    for (let index = 0; index < books.length; index++) {
+      if (id === books[index].isbn13) {
+        return true
+      }
+    }
+    return false
+  }
+
   function handleClick (event:React.MouseEvent<HTMLButtonElement>) {
     const target = event.target as HTMLElement
     setSelectedButton(target.className.split(' ')[0])
   }
 
-  function handleAddToCart () {
+  function handleAddToCart (event:React.MouseEvent<HTMLButtonElement>) {
+    const target = event.target as HTMLAnchorElement
+    target.setAttribute('disabled', '')
+    target.classList.add('disabled')
+    dispatch(addAmount())
     addBookToCart(answer)
   }
 
@@ -55,6 +77,21 @@ export function BookOverview () {
       dispatch(fetchBook(id))
     }
   }, [])
+
+  function renderAddToCartButton () {
+    if (checkInCart()) {
+      return (
+        <button className='book__cart-btn disabled' disabled onClick={handleAddToCart}>
+          ADD TO CART
+        </button>
+      )
+    }
+    return (
+      <button className='book__cart-btn' onClick={handleAddToCart}>
+        ADD TO CART
+      </button>
+    )
+  }
 
   function renderBookInfo () {
     return (
@@ -76,9 +113,7 @@ export function BookOverview () {
                         <p className='left-text'>{answer.language}</p>
                     </div>
                 </div>
-                <button className='book__cart-btn' onClick={handleAddToCart}>
-                    ADD TO CART
-                </button>
+                {renderAddToCartButton()}
             </div>
         </div>
     )

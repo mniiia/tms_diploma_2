@@ -1,7 +1,10 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { IBookDetails } from '../BookOverview/BookOverview'
+import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
 import './BookCartCard.scss'
+import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
+import { addAmount, removeAmount } from '../../redux/cart-amount-slice'
+import { useDispatch } from 'react-redux'
 
 interface CardProps{
     id?:string;
@@ -11,11 +14,14 @@ interface CardProps{
     authors?:string;
     year?:string;
     calculateSum?:(sum:number)=>void;
+    amount?:number
 }
 
-export function BookCartCard ({ id, image, title, price, authors, year, calculateSum }:CardProps) {
-  const [sum, setSum] = useState<number>((price ? +price.slice(1) : 0))
-  const [amount, setAmount] = useState<number>(1)
+export function BookCartCard ({ id, image, title, price, authors, year, calculateSum, amount }:CardProps) {
+  const [sum, setSum] = useState<number>((price ? +price.slice(1) : 0) * amount as number)
+  const [newAmount, setAmount] = useState<number>(amount as number)
+  const dispatch = useDispatch()
+  console.log(newAmount)
 
   function deleteBookFromLocalStorage () {
     const books:IBookDetails[] = JSON.parse(localStorage.getItem('cart') as string)
@@ -24,21 +30,42 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
         books.splice(i, 1)
       }
     }
-    console.log(books)
     localStorage.setItem('cart', JSON.stringify(books))
   }
 
+  function changeAmount (value:boolean) {
+    const books = getCartFromLc()
+    if (value) {
+      for (let i = 0; i < books.length; i++) {
+        if (books[i].isbn13 === id) {
+          books[i].amount = books[i].amount + 1
+          localStorage.setItem('cart', JSON.stringify(books))
+        }
+      }
+    } else {
+      for (let i = 0; i < books.length; i++) {
+        if (books[i].isbn13 === id) {
+          books[i].amount = books[i].amount - 1
+          localStorage.setItem('cart', JSON.stringify(books))
+        }
+      }
+    }
+  }
+
   function handleAddSum () {
-    setAmount(amount + 1)
+    dispatch(addAmount())
+    changeAmount(true)
+    setAmount(newAmount + 1)
     setSum(sum + (price ? +price.slice(1) : 0))
     calculateSum?.((price ? +price.slice(1) : 0))
   }
   function handleRemoveSum () {
+    dispatch(removeAmount())
+    changeAmount(false)
     if (amount === 1) {
-      console.log('deleted')
       deleteBookFromLocalStorage()
     }
-    setAmount(amount - 1)
+    setAmount(newAmount - 1)
     setSum(sum - (price ? +price.slice(1) : 0))
     calculateSum?.(-(price ? +price.slice(1) : 0))
   }
@@ -56,7 +83,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
                 <p className='cart-card__text'>by {authors}, Apress {year}</p>
                 <div className='cart-card__amount'>
                         <button className='remove' onClick={handleRemoveSum}>-</button>
-                        <p className='amount'>{amount}</p>
+                        <p className='amount'>{newAmount}</p>
                         <button className='add' onClick={handleAddSum}>+</button>
                 </div>
             </div>
