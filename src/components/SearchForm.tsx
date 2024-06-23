@@ -10,8 +10,11 @@ export function SearchForm () {
     newRequest(event.target.value)
   }
 
-  function handleClickClear (event:React.MouseEvent<HTMLButtonElement>) {
-    event.target.closest('INPUT').value = ''
+  function handleClickClear (event:React.MouseEvent<HTMLAnchorElement>) {
+    const inputElement = event.currentTarget.closest('form')?.querySelector('input') as HTMLInputElement | null
+    if (inputElement) {
+      inputElement.value = ''
+    }
   }
 
   return (

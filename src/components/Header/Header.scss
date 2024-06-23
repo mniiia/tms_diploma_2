@@ -7,6 +7,8 @@
     position: sticky;
     top: 0;
     z-index: 2;
+    // padding-left: calc(100vw - 100%);
+    // padding-right: 0;
     .header-container{
         margin: auto;
         display: flex;

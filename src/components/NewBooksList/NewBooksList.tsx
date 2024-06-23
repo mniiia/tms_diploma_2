@@ -16,6 +16,11 @@ export function NewBooksList () {
   const { id } = useParams<{ id: string }>()
 
   useEffect(() => {
+    // Прокрутка страницы вверх при изменении параметра id
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [id])
+
+  useEffect(() => {
     dispatch(fetchNewBooks())
   }, [dispatch])
 

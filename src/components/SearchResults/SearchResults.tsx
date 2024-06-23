@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BookCard } from '../BookCard/BookCard'
 import { Container } from '../Container/Container'
 import '../NewBooksList/NewBooksList.scss'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { fetchSearch } from '../../redux/books-slice'
 import { AppDispatch, RootState } from '../../redux/store'
 import { useParams } from 'react-router-dom'
@@ -15,6 +15,11 @@ export function SearchResults () {
   const pagesCount = useSelector((state: RootState) => state.books.pages as number)
   const { id } = useParams<{ id: string }>()
   const { query } = useParams<{ query: string }>()
+
+  useEffect(() => {
+    // Прокрутка страницы вверх при изменении параметра id
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [id])
 
   useEffect(() => {
     dispatch(fetchSearch(`${query}/${id}`))
@@ -58,6 +63,9 @@ export function SearchResults () {
 
     return (
       <Container>
+        <div className='search-results'>
+            <p>Search results for: &quot; {query} &quot;</p>
+        </div>
         <div className='books-container'>
           {BookCardList(answer.books)}
         </div>
@@ -70,9 +78,14 @@ export function SearchResults () {
 
   return (
     <Container>
-      <div className='books-container'>
-        NO BOOKS
-      </div>
+        <div className='books-text'>
+            <p className='search-results'>
+                Search results for: &quot; {query} &quot;
+            </p>
+            <p className='no-results'>
+                NO RESULTS
+            </p>
+        </div>
     </Container>
   )
 }
