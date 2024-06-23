@@ -19,16 +19,18 @@ export function BookCard ({ id, image, title, subtitle, price, children }:CardPr
               <div className="book-card__cover" style={{ backgroundImage: `url(${image})` }}>
               </div>
             </div>
-            <h4 className="book-card__title">{title}</h4>
-            <div className="book-card__subtitle">{subtitle}</div>
-            <div className="book-card__price">{price}</div>
+            <div className="book-card__text">
+              <h4 className="book-card__title">{title}</h4>
+              <div className="book-card__subtitle">{subtitle}</div>
+              <div className="book-card__price">{price}</div>
+            </div>
         </NavLink>
     )
   }
 
   return (
         <div className="book-card">
-            <div className='book-card__cover' style={{ backgroundImage: "url('https://dummyimage.com/200')" }}>
+            <div className="book-card__cover" style={{ backgroundImage: "url('https://dummyimage.com/200')" }}>
             </div>
             <h4 className="book-card__title">Loading title...</h4>
             <div className="book-card__subtitle">Loading subtitle...</div>

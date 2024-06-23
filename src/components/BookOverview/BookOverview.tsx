@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { addAmount } from '../../redux/cart-amount-slice'
 import './BookOverwiew.scss'
 import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
+import { CiStar } from 'react-icons/ci'
 
 export interface IBookDetails {
   title: string;
@@ -18,6 +19,7 @@ export interface IBookDetails {
   desc: string;
   isbn13:string;
   year:string;
+  rating:string;
 }
 
 export interface IBookWithAmount extends IBookDetails{
@@ -99,18 +101,24 @@ export function BookOverview () {
             <div className='book__cover' style={{ backgroundImage: `url(${answer.image})` }}></div>
             <div className='book__short-information-container'>
                 <div className='book__short-information'>
-                    <div className='information-row book__price'>{answer.price}</div>
+                    <div className='information-row book__price'>
+                      <p>{answer.price}</p>
+                      <div className='book__rating'>
+                        <p>{answer.rating}</p>
+                        <CiStar size={33}/>
+                      </div>
+                    </div>
                     <div className='information-row book__authors'>
                         <p className='left-text'>Authors</p>
-                        <p className='left-text'>{answer.authors}</p>
+                        <p className='right-text'>{answer.authors}</p>
                     </div>
                     <div className='information-row book__publisher'>
                         <p className='left-text'>Publisher</p>
-                        <p className='left-text'>{answer.publisher}</p>
+                        <p className='right-text'>{answer.publisher}</p>
                     </div>
                     <div className='information-row book__language'>
                         <p className='left-text'>Languale</p>
-                        <p className='left-text'>{answer.language}</p>
+                        <p className='right-text'>{answer.language}</p>
                     </div>
                 </div>
                 {renderAddToCartButton()}

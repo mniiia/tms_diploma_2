@@ -29,16 +29,24 @@
                 display: flex;
                 justify-content: space-between;
                 margin: 20px;
+                .book_authors{
+                    overflow: scroll;
+                }
+                
             }
             .book__price{
                 font-size: 30px;
-                align-self: center;
+                .book__rating{
+                    display: flex;
+                }
             }
             .left-text{
-    
+                width: 40%;
+                text-align: left;
             }
             .right-text{
-    
+                text-align: right;
+                width: 40%;
             }
         }
         .book__cart-btn{
