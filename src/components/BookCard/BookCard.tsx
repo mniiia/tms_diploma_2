@@ -12,7 +12,7 @@ interface CardProps{
 }
 
 export function BookCard ({ id, image, title, subtitle, price, children }:CardProps) {
-  if (title && price) {
+  if (title) {
     return (
         <NavLink to={`/book/${id}`} className="book-card" id={id}>
             <div className='book-card__cover-container'>
