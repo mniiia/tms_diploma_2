@@ -58,6 +58,9 @@ const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
+    clearAnswer: (state) => {
+      state.answer = {}
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -97,3 +100,4 @@ const booksSlice = createSlice({
 })
 
 export const booksReducer = booksSlice.reducer
+export const { clearAnswer } = booksSlice.actions
