@@ -63,7 +63,7 @@ export function NewBooksList () {
           {BookCardList(answer.books)}
         </div>
         <div className='pagination-container'>
-          {renderPagination(pagesCount, id ? parseInt(id, 10) : 1, '/page/')}
+          {renderPagination(pagesCount, id ? parseInt(id, 10) : 1, '/new/page/')}
         </div>
       </Container>
     )

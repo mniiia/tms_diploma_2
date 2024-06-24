@@ -62,6 +62,19 @@
             background: grey;
             color:  white;
         }
+        .book__favorite-btn{
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+            padding: 10px 30px;
+            font-size: 50px;
+            background: black;
+            color:  white;
+        }
+        .book__favorite-btn.active{
+
+            color:  red;
+        }
     }
 
 

@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import { booksReducer } from './books-slice'
 import { bookReducer } from './book-slice'
 import { cartAmountReducer } from './cart-amount-slice'
+import { favoriteAmountReducer } from './favorite-amount-slice'
 
 export const store = configureStore({
   reducer: {
     books: booksReducer,
     book: bookReducer,
-    cart: cartAmountReducer
+    cart: cartAmountReducer,
+    favorite: favoriteAmountReducer
   }
 })
 

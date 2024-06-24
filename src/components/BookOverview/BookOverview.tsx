@@ -7,7 +7,9 @@ import { useParams } from 'react-router-dom'
 import { addAmount } from '../../redux/cart-amount-slice'
 import './BookOverwiew.scss'
 import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
-import { CiStar } from 'react-icons/ci'
+import { CiStar, CiShoppingCart, CiHeart } from 'react-icons/ci'
+import { getFavoriteFromLc } from '../../helpers/getFavoriteFromLocalStorage'
+import { addFavoriteAmount, removeFavoriteAmount } from '../../redux/favorite-amount-slice'
 
 export interface IBookDetails {
   title: string;
@@ -28,19 +30,40 @@ export interface IBookWithAmount extends IBookDetails{
 
 function addBookToCart (book:IBookDetails) {
   if (localStorage.getItem('cart')) {
-    console.log(localStorage.getItem('cart'))
     const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('cart') as string) as IBookDetails[]
-    console.log(localStorageData)
     const bookWithAmount:IBookWithAmount = { ...book, amount: 1 }
     localStorageData.push(bookWithAmount)
     localStorage.setItem('cart', JSON.stringify(localStorageData))
+    return
   }
-  // const bookWithAmount:IBookDetails = book
-  // bookWithAmount.amount = 1
-  // console.log(bookWithAmount)
-  // const booksList:IBookDetails[] = []
-  // booksList.push(bookWithAmount)
-  // localStorage.setItem('cart', JSON.stringify(booksList))
+  const localStorageData:IBookDetails[] = []
+  const bookWithAmount:IBookWithAmount = { ...book, amount: 1 }
+  localStorageData.push(bookWithAmount)
+  localStorage.setItem('cart', JSON.stringify(localStorageData))
+}
+
+function addBookToFavorite (book:IBookDetails) {
+  console.log(book)
+
+  if (localStorage.getItem('favorite')) {
+    const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string) as IBookDetails[]
+    localStorageData.push(book)
+    localStorage.setItem('favorite', JSON.stringify(localStorageData))
+    return
+  }
+  const localStorageData:IBookDetails[] = []
+  localStorageData.push(book)
+  localStorage.setItem('favorite', JSON.stringify(localStorageData))
+}
+
+function removeBookFromFavorite (book:IBookDetails) {
+  const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string) as IBookDetails[]
+  for (let index = 0; index < localStorageData.length; index++) {
+    if (localStorageData[index].isbn13 === book.isbn13) {
+      localStorageData.splice(index, 1)
+    }
+  }
+  localStorage.setItem('favorite', JSON.stringify(localStorageData))
 }
 
 export function BookOverview () {
@@ -50,9 +73,20 @@ export function BookOverview () {
   const { id } = useParams<{id:string}>()
   console.log(previousId, id)
   const [selectedButton, setSelectedButton] = useState<string>('description-btn')
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
   function checkInCart () {
-    const books:IBookWithAmount[] = getCartFromLc()
+    const books:IBookWithAmount[] = getCartFromLc() ? getCartFromLc() : []
+    for (let index = 0; index < books.length; index++) {
+      if (id === books[index].isbn13) {
+        return true
+      }
+    }
+    return false
+  }
+
+  function checkInFavorite () {
+    const books:IBookDetails[] = getFavoriteFromLc() ? getFavoriteFromLc() : []
     for (let index = 0; index < books.length; index++) {
       if (id === books[index].isbn13) {
         return true
@@ -74,11 +108,31 @@ export function BookOverview () {
     addBookToCart(answer)
   }
 
+  function handleAddToFavorite (event:React.MouseEvent<HTMLButtonElement>) {
+    const target = event.target as HTMLAnchorElement
+    target.classList.add('active')
+    addBookToFavorite(answer)
+    setIsFavorite(true)
+    dispatch(addFavoriteAmount())
+  }
+
+  function handleRemoveFromFavorite (event:React.MouseEvent<HTMLButtonElement>) {
+    const target = event.target as HTMLAnchorElement
+    target.classList.remove('active')
+    removeBookFromFavorite(answer)
+    setIsFavorite(false)
+    dispatch(removeFavoriteAmount())
+  }
+
   useEffect(() => {
     if (id !== undefined) {
       dispatch(fetchBook(id))
     }
-  }, [])
+  }, [id])
+
+  useEffect(() => {
+    setIsFavorite(checkInFavorite())
+  }, [answer])
 
   function renderAddToCartButton () {
     if (checkInCart()) {
@@ -91,6 +145,21 @@ export function BookOverview () {
     return (
       <button className='book__cart-btn' onClick={handleAddToCart}>
         ADD TO CART
+      </button>
+    )
+  }
+
+  function renderAddToFavoriteButton () {
+    if (checkInFavorite()) {
+      return (
+        <button className='book__favorite-btn active' onClick={handleRemoveFromFavorite}>
+        <CiHeart size={50}/>
+      </button>
+      )
+    }
+    return (
+      <button className='book__favorite-btn' onClick={handleAddToFavorite}>
+        <CiHeart size={50}/>
       </button>
     )
   }
@@ -122,6 +191,7 @@ export function BookOverview () {
                     </div>
                 </div>
                 {renderAddToCartButton()}
+                {renderAddToFavoriteButton()}
             </div>
         </div>
     )

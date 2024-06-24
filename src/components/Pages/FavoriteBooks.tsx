@@ -1,6 +1,7 @@
+import { FavoriteBooksList } from '../FavoriteBooksList/FavoriteBookList'
+
 export function FavoriteBooks () {
   return (
-        <div>Loading</div>
-        // убрать потом
+        <FavoriteBooksList></FavoriteBooksList>
   )
 }

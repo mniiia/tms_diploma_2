@@ -6,15 +6,18 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
-import { IBookWithAmount } from '../BookOverview/BookOverview'
+import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
 import { setAmount } from '../../redux/cart-amount-slice'
+import { setFavoriteAmount } from '../../redux/favorite-amount-slice'
+import { getFavoriteFromLc } from '../../helpers/getFavoriteFromLocalStorage'
 
 export function Header () {
-  const amount = useSelector((state:RootState) => state.cart.amount)
+  const cartAmount = useSelector((state:RootState) => state.cart.amount)
+  const favoriteAmount = useSelector((state:RootState) => state.favorite.amount)
   const dispatch = useDispatch()
 
-  function getAmount () {
-    const books:IBookWithAmount[] = getCartFromLc()
+  function getCartAmount () {
+    const books:IBookWithAmount[] = getCartFromLc() ? getCartFromLc() : []
     let amount:number = 0
     for (let index = 0; index < books.length; index++) {
       amount += books[index].amount
@@ -23,23 +26,36 @@ export function Header () {
     return amount
   }
 
-  const [booksAmount, setBooksAmount] = useState<number>(amount)
+  function getFavoriteAmount () {
+    const books:IBookDetails[] = getFavoriteFromLc() ? getFavoriteFromLc() : []
+    const amount:number = books.length
+    dispatch(setFavoriteAmount(amount))
+    return amount
+  }
+
+  const [cartBooksAmount, setCartBooksAmount] = useState<number>(cartAmount)
+  const [cartFavoriteAmount, setFavoriteBooksAmount] = useState<number>(cartAmount)
 
   useEffect(() => {
-    getAmount()
-    setBooksAmount(amount)
-  }, [amount])
+    getCartAmount()
+    getFavoriteAmount()
+    setCartBooksAmount(cartAmount)
+    setFavoriteBooksAmount(favoriteAmount)
+  }, [cartAmount, favoriteAmount])
 
   return (
         <header className="header">
             <div className='header-container'>
-                <NavLink to='/page/1' className="name">BOOKSTORE</NavLink>
+                <NavLink to='/new/page/1' className="name">BOOKSTORE</NavLink>
                 <SearchForm></SearchForm>
                 <div className="button-group">
-                    <NavLink to='/favorite' className="favorite icon">{<CiHeart size={40}/>}</NavLink>
+                    <NavLink to='/favorite' className="favorite icon">
+                      {<CiHeart size={40}/>}
+                      <div className='amount'>{cartFavoriteAmount}</div>
+                    </NavLink>
                     <NavLink to='/cart' className="cart icon">
                         <CiShoppingCart size={40}/>
-                        <div className='amount'>{booksAmount}</div>
+                        <div className='amount'>{cartBooksAmount}</div>
                     </NavLink>
                 </div>
             </div>

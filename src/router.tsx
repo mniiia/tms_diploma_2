@@ -5,6 +5,7 @@ import { FavoriteBooks } from './components/Pages/FavoriteBooks'
 import { CartBooks } from './components/Pages/CartBooks'
 import { Book } from './components/Pages/Book'
 import { Search } from './components/Pages/Search'
+import { Main } from './components/Pages/Main'
 
 export const router = createBrowserRouter([
   {
@@ -12,14 +13,14 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <div>DODELAT</div>
+        element: <Main/>
       },
       {
         path: '/search/:query/:id',
         element: <Search/>
       },
       {
-        path: '/page/:id',
+        path: '/new/page/:id',
         element: <NewBooks/>
       },
       {

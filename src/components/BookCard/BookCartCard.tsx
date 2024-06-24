@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom'
 import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
 import './BookCartCard.scss'
 import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
-import { addAmount, removeAmount } from '../../redux/cart-amount-slice'
+import { addAmount, removeAmount, setAmount } from '../../redux/cart-amount-slice'
 import { useDispatch } from 'react-redux'
+import { CiTrash } from 'react-icons/ci'
 
 interface CardProps{
     id?:string;
@@ -19,7 +20,7 @@ interface CardProps{
 
 export function BookCartCard ({ id, image, title, price, authors, year, calculateSum, amount }:CardProps) {
   const [sum, setSum] = useState<number>((price ? +price.slice(1) : 0) * amount as number)
-  const [newAmount, setAmount] = useState<number>(amount as number)
+  const [newAmount, setNewAmount] = useState<number>(amount as number)
   const dispatch = useDispatch()
   console.log(newAmount)
 
@@ -27,6 +28,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
     const books:IBookDetails[] = JSON.parse(localStorage.getItem('cart') as string)
     for (let i = 0; i < books.length; i++) {
       if (books[i].isbn13 === id) {
+        dispatch(setAmount(newAmount - amount))
         books.splice(i, 1)
       }
     }
@@ -55,7 +57,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
   function handleAddSum () {
     dispatch(addAmount())
     changeAmount(true)
-    setAmount(newAmount + 1)
+    setNewAmount(newAmount + 1)
     setSum(sum + (price ? +price.slice(1) : 0))
     calculateSum?.((price ? +price.slice(1) : 0))
   }
@@ -65,7 +67,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
     if (amount === 1) {
       deleteBookFromLocalStorage()
     }
-    setAmount(newAmount - 1)
+    setNewAmount(newAmount - 1)
     setSum(sum - (price ? +price.slice(1) : 0))
     calculateSum?.(-(price ? +price.slice(1) : 0))
   }
@@ -86,6 +88,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
                         <p className='amount'>{newAmount}</p>
                         <button className='add' onClick={handleAddSum}>+</button>
                 </div>
+                <button onClick={deleteBookFromLocalStorage} className='cart-card__delete'><CiTrash size={40}/></button>
             </div>
             <div className="cart-card__price">{displaySum}</div>
         </div>

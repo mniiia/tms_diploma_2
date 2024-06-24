@@ -1,0 +1,13 @@
+.main-page__buttons{
+    display: flex;
+    margin: auto;
+    width: 70%;
+    justify-content: space-between;
+    .link{
+        height: 100px;
+        background:black;
+        border-radius: 10%;
+        margin: 20px;
+        padding: 20px;
+    }
+}

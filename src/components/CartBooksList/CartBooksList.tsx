@@ -19,17 +19,21 @@ import { useEffect, useState } from 'react'
 
 export function CartBooksList () {
   const [sum, setSum] = useState<number>(0)
+  const cartAmount = useSelector((state:RootState) => state.cart.amount)
 
   function calcFirstSum () {
-    const books:IBookWithAmount[] = JSON.parse(localStorage.getItem('cart') as string)
-    let firstSum:number = 0
-    for (let index = 0; index < books.length; index++) {
-      const amount:number = books[index].amount
-      firstSum += (+(books[index].price.slice(1)) * amount)
-      console.log(books[index].price)
+    if (JSON.parse(localStorage.getItem('cart') as string)) {
+      const books:IBookWithAmount[] = JSON.parse(localStorage.getItem('cart') as string)
+      let firstSum:number = 0
+      for (let index = 0; index < books.length; index++) {
+        const amount:number = books[index].amount
+        firstSum += (+(books[index].price.slice(1)) * amount)
+        console.log(books[index].price)
+      }
+      setSum(firstSum)
+      return firstSum
     }
-    setSum(firstSum)
-    return firstSum
+    return 0
   }
 
   function BookCardList (booksList:IBookWithAmount[]) {
@@ -46,10 +50,13 @@ export function CartBooksList () {
   }
 
   useEffect(() => {
+  }, [cartAmount])
+
+  useEffect(() => {
     calcFirstSum()
   }, [])
 
-  if (JSON.parse(localStorage.getItem('cart') as string).length) {
+  if (JSON.parse(localStorage.getItem('cart') as string) && JSON.parse(localStorage.getItem('cart') as string).length) {
     const booksList:IBookWithAmount[] = JSON.parse(localStorage.getItem('cart') as string)
     console.log(booksList)
 

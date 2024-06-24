@@ -1,6 +1,6 @@
 .pagination-container{
     width: 30%;
-    margin: auto;
+    margin: 0 auto 35px;
     .pagination{
         list-style-type: none;
         display: flex;
@@ -9,6 +9,7 @@
         margin: auto;
         background: lightgray;
         padding: 10px;
+        margin-left: -10px;
         border-radius: 10px;
         .page-item{
     
