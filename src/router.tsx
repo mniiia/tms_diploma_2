@@ -20,6 +20,10 @@ export const router = createBrowserRouter([
         element: <Search/>
       },
       {
+        path: '/search//:id',
+        element: <Search></Search>
+      },
+      {
         path: '/new/page/:id',
         element: <NewBooks/>
       },

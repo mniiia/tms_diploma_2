@@ -64,7 +64,7 @@ export function SearchResults () {
     return (
       <Container>
         <div className='search-results'>
-            <p>Search results for: &quot; {query} &quot;</p>
+            <p>Search results for: &quot;{query}&quot;</p>
         </div>
         <div className='books-container'>
           {BookCardList(answer.books)}
