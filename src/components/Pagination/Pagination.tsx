@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import './Pagination.scss'
 
-export function buildPaginationScheme (currentPage: number, pagesCount: number): (string|number)[] {
+export function buildPaginationScheme (currentPage: number, pagesCount: number): (number)[] {
   // const pages:string[] = [`${1}`, `${currentPage}`, `${pagesCount}`]
 
   // if (currentPage === pagesCount) {
@@ -20,8 +20,8 @@ export function buildPaginationScheme (currentPage: number, pagesCount: number):
   const set = new Set(filteredScheme) // удаляем дубли
   const result = Array.from(set) // обратно приводим к массиву
 
-  if (result[0] + 1 !== result[1]) result.splice(1, 0, '...') // если между первым и вторым элементом пропуск, вставляем ...
-  if (result.at(-2) + 1 !== result.at(-1)) result.splice(result.length - 1, 0, '...') // если между последним и предпоследним пропуск, вставляем ...
+  if (result[0] + 1 !== result[1]) result.splice(1, 0, -1) // если между первым и вторым элементом пропуск, вставляем ...
+  if (result.at(-2) + 1 !== result.at(-1)) result.splice(result.length - 1, 0, -1) // если между последним и предпоследним пропуск, вставляем ...
 
   return result
 }
@@ -33,8 +33,8 @@ export function renderPagination (pagesCount: number, currentPage: number, link:
 
   return (
       <ul className="pagination">
-        {paginationScheme.map((item:string, index) => {
-          if (item === '...') {
+        {paginationScheme.map((item:number, index) => {
+          if (item === -1) {
             return (
               <li className="page-item" key={index}>
                 <span className="page-link">...</span>

@@ -25,11 +25,11 @@
             align-self: center;
             display: flex;
             flex-direction: column;
-            .information-row{
+            .book__row{
                 display: flex;
                 justify-content: space-between;
                 margin: 20px;
-                .book_authors{
+                .book__authors{
                     overflow: scroll;
                 }
                 
@@ -40,11 +40,11 @@
                     display: flex;
                 }
             }
-            .left-text{
+            .book__text--left{
                 width: 40%;
                 text-align: left;
             }
-            .right-text{
+            .book__text--right{
                 text-align: right;
                 width: 40%;
             }

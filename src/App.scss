@@ -11,12 +11,12 @@
 		text-decoration: none;
 	}
 
-	.app-page{
+	.app__page{
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		height: 100vh;
-		.app-main{
+		.app__main{
 			background-color: white;
 		}
 	}
@@ -44,8 +44,8 @@
 }
 
 body{
-	overflow-y: scroll; /* Включаем вертикальную прокрутку */
+	overflow-y: scroll; 
 	overflow-x: hidden;
-	margin-right: -17px; /* Компенсируем ширину скроллбара (примерная ширина) */
-	padding-right: 17px; /* Создаем отступ для содержимого */
+	margin-right: -17px; 
+	padding-right: 17px; 
 }

@@ -20,13 +20,14 @@ import { useEffect } from 'react'
 
 export function FavoriteBooksList () {
   const favoriteAmount = useSelector((state:RootState) => state.favorite.amount)
+
   useEffect(() => {}, [favoriteAmount])
   function BookCardList (booksList:IBookDetails[]) {
     return booksList.map(renderBookcard)
   }
 
   function renderBookcard (book:IBookDetails) {
-    return <BookFavoriteCard key={book.isbn13} id={book.isbn13} image={book.image} title={book.title} price={book.price} authors={book.authors} year={book.year}></BookFavoriteCard>
+    return <BookFavoriteCard amount={favoriteAmount} key={book.isbn13} id={book.isbn13} image={book.image} title={book.title} price={book.price} authors={book.authors} year={book.year}></BookFavoriteCard>
   }
 
   if (JSON.parse(localStorage.getItem('favorite') as string) && JSON.parse(localStorage.getItem('favorite') as string).length) {
@@ -42,7 +43,7 @@ export function FavoriteBooksList () {
 
   return (
     <Container>
-      <div className='cart-empty'>Favorite is empty</div>
+      <div className='cart__empty'>Favorite is empty</div>
     </Container>
   )
 }

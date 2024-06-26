@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../redux/store'
-import { useParams } from 'react-router-dom'
-import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import { IBookWithAmount } from '../BookOverview/BookOverview'
 import { BookCartCard } from '../BookCard/BookCartCard'
 import { Container } from '../Container/Container'
 import '../BookCard/BookCartCard.scss'
@@ -26,7 +25,7 @@ export function CartBooksList () {
       const books:IBookWithAmount[] = JSON.parse(localStorage.getItem('cart') as string)
       let firstSum:number = 0
       for (let index = 0; index < books.length; index++) {
-        const amount:number = books[index].amount
+        const amount:number = books[index].amount ?? 1
         firstSum += (+(books[index].price.slice(1)) * amount)
         console.log(books[index].price)
       }
@@ -41,7 +40,17 @@ export function CartBooksList () {
   }
 
   function renderBookcard (book:IBookWithAmount) {
-    return <BookCartCard calculateSum={calculateSum} amount={book.amount} key={book.isbn13} id={book.isbn13} image={book.image} title={book.title} price={book.price} authors={book.authors} year={book.year}></BookCartCard>
+    return <BookCartCard
+     calculateSum={calculateSum}
+      amount={book.amount ?? 1}
+      key={book.isbn13}
+      id={book.isbn13}
+      image={book.image}
+      title={book.title}
+      price={book.price}
+      authors={book.authors}
+      year={book.year}
+      ></BookCartCard>
   }
 
   function calculateSum (oneBookSum:number) {
@@ -63,7 +72,7 @@ export function CartBooksList () {
     return (
         <Container>
             {BookCardList(booksList)}
-            <div className='cart-card__calculator'>
+            <div className='cart__calculator'>
                 TOTAL: {`$${sum.toFixed(2)}`}
             </div>
         </Container>
@@ -72,7 +81,7 @@ export function CartBooksList () {
 
   return (
     <Container>
-      <div className='cart-empty'>Cart is empty</div>
+      <div className='cart__empty'>Cart is empty</div>
     </Container>
   )
 }

@@ -3,19 +3,23 @@ import { CiSearch } from 'react-icons/ci'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 export function SearchForm () {
-  const [request, newRequest] = useState<string>('')
+  const [request, setRequest] = useState<string>('')
   const navigate = useNavigate()
 
   function handleChange (event:React.ChangeEvent<HTMLInputElement>) {
     console.log('changed', event.target.value)
     const requestWithOutSpace:string = event.target.value.replace(/ /g, '')
     const requestWithoutHash:string = requestWithOutSpace.replace(/#/g, '')
-    newRequest(requestWithoutHash)
+    setRequest(requestWithoutHash)
   }
 
   function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     navigate(`/search/${request}/1`)
+    const inputElement = event.currentTarget.closest('form')?.querySelector('input') as HTMLInputElement | null
+    if (inputElement) {
+      inputElement.value = ''
+    }
   }
 
   function handleClickClear (event:React.MouseEvent<HTMLAnchorElement>) {

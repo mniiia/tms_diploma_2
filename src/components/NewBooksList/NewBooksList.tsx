@@ -59,10 +59,10 @@ export function NewBooksList () {
   if (answer && 'books' in answer) {
     return (
       <Container>
-        <div className='books-container'>
+        <div className='books__container'>
           {BookCardList(answer.books)}
         </div>
-        <div className='pagination-container'>
+        <div className='pagination__container'>
           {renderPagination(pagesCount, id ? parseInt(id, 10) : 1, '/new/page/')}
         </div>
       </Container>
@@ -71,7 +71,7 @@ export function NewBooksList () {
 
   return (
     <Container>
-      <div className='books-container'>
+      <div className='books__container'>
         Loading...
       </div>
     </Container>

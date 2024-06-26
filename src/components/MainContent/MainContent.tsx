@@ -9,13 +9,13 @@ export function MainContent () {
   return (
     <Container>
         <div className="main-page__buttons">
-            <NavLink to="/new/page/1" className="link">
+            <NavLink to="/new/page/1" className="main-page__link">
                 <MdFiberNew size={100}/>
             </NavLink>
-            <NavLink to="/favorite" className="link">
+            <NavLink to="/favorite" className="main-page__link">
                 <CiHeart size={100}/>
             </NavLink>
-            <NavLink to="/cart" className="link">
+            <NavLink to="/cart" className="main-page__link">
                 <CiShoppingCart size={100}/>
             </NavLink>
         </div>

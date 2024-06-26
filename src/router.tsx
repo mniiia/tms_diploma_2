@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/search//:id',
-        element: <Search></Search>
+        element: <Search/>
       },
       {
         path: '/new/page/:id',

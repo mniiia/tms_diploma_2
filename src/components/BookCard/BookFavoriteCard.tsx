@@ -14,23 +14,22 @@ interface CardProps{
     price?:string;
     authors?:string;
     year?:string;
-    amount?:number
+    amount:number
 }
 
-export function BookFavoriteCard ({ id, image, title, price, authors, year, amount }:CardProps) {
-  const [isVisible, setVisibility] = useState<boolean>(true)
+export function BookFavoriteCard ({ id, image, title, authors, year, amount }:CardProps) {
   const dispatch = useDispatch()
 
   function deleteBookFromLocalStorage () {
     const books:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string)
     for (let i = 0; i < books.length; i++) {
       if (books[i].isbn13 === id) {
+        console.log(amount, amount - 1)
         dispatch(setFavoriteAmount(amount - 1))
         books.splice(i, 1)
       }
     }
     localStorage.setItem('favorite', JSON.stringify(books))
-    setVisibility(false)
   }
 
   if (title) {

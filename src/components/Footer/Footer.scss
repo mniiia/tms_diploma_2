@@ -3,17 +3,11 @@
     color: lightgrey;
     width: 100%;
     padding: 20px 0;
-    .footer-container{
+    .footer__container{
         margin: auto;
         display: flex;
         justify-content: space-between;
         width: 80%;
         max-width: 1600px;
-        .left-text{
-
-        }
-        .right-text{
-
-        }
     }
 }

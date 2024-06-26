@@ -10,6 +10,7 @@ import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
 import { setAmount } from '../../redux/cart-amount-slice'
 import { setFavoriteAmount } from '../../redux/favorite-amount-slice'
 import { getFavoriteFromLc } from '../../helpers/getFavoriteFromLocalStorage'
+import { MdFiberNew } from 'react-icons/md'
 
 export function Header () {
   const cartAmount = useSelector((state:RootState) => state.cart.amount)
@@ -20,7 +21,7 @@ export function Header () {
     const books:IBookWithAmount[] = getCartFromLc() ? getCartFromLc() : []
     let amount:number = 0
     for (let index = 0; index < books.length; index++) {
-      amount += books[index].amount
+      amount += books[index].amount ?? 1
     }
     dispatch(setAmount(amount))
     return amount
@@ -45,17 +46,20 @@ export function Header () {
 
   return (
         <header className="header">
-            <div className='header-container'>
-                <NavLink to='/new/page/1' className="name">BOOKSTORE</NavLink>
+            <div className='header__container'>
+                <NavLink to='/' className="header__name">BOOKSTORE</NavLink>
                 <SearchForm></SearchForm>
-                <div className="button-group">
-                    <NavLink to='/favorite' className="favorite icon">
-                      {<CiHeart size={40}/>}
-                      <div className='amount'>{cartFavoriteAmount}</div>
+                <div className="header__button-group">
+                    <NavLink to='/new/page/1' className="header__icon--new header__icon">
+                     {<MdFiberNew size={40}/>}
                     </NavLink>
-                    <NavLink to='/cart' className="cart icon">
+                    <NavLink to='/favorite' className="header__icon--favorite header__icon">
+                      {<CiHeart size={40}/>}
+                      <div className='header__amount'>{cartFavoriteAmount}</div>
+                    </NavLink>
+                    <NavLink to='/cart' className="header__icon--cart header__icon">
                         <CiShoppingCart size={40}/>
-                        <div className='amount'>{cartBooksAmount}</div>
+                        <div className='header__amount'>{cartBooksAmount}</div>
                     </NavLink>
                 </div>
             </div>

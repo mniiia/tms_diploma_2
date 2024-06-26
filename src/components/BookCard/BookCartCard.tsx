@@ -15,7 +15,7 @@ interface CardProps{
     authors?:string;
     year?:string;
     calculateSum?:(sum:number)=>void;
-    amount?:number
+    amount:number
 }
 
 export function BookCartCard ({ id, image, title, price, authors, year, calculateSum, amount }:CardProps) {
@@ -35,20 +35,15 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
     localStorage.setItem('cart', JSON.stringify(books))
   }
 
-  function changeAmount (value:boolean) {
+  function changeAmount (value: boolean) {
     const books = getCartFromLc()
-    if (value) {
+    if (books) {
       for (let i = 0; i < books.length; i++) {
         if (books[i].isbn13 === id) {
-          books[i].amount = books[i].amount + 1
+          const currentAmount = books[i].amount ?? 1
+          books[i].amount = currentAmount + (value ? 1 : -1)
           localStorage.setItem('cart', JSON.stringify(books))
-        }
-      }
-    } else {
-      for (let i = 0; i < books.length; i++) {
-        if (books[i].isbn13 === id) {
-          books[i].amount = books[i].amount - 1
-          localStorage.setItem('cart', JSON.stringify(books))
+          break
         }
       }
     }
@@ -61,6 +56,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
     setSum(sum + (price ? +price.slice(1) : 0))
     calculateSum?.((price ? +price.slice(1) : 0))
   }
+
   function handleRemoveSum () {
     dispatch(removeAmount())
     changeAmount(false)
