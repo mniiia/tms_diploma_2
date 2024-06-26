@@ -5,13 +5,12 @@ import '../NewBooksList/NewBooksList.scss'
 import { useEffect, useRef } from 'react'
 import { fetchSearch } from '../../redux/books-slice'
 import { AppDispatch, RootState } from '../../redux/store'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { renderPagination } from '../Pagination/Pagination'
 
 export function SearchResults () {
   const dispatch = useDispatch<AppDispatch>()
   const answer = useSelector((state: RootState) => state.books.answer)
-
   const pagesCount = useSelector((state: RootState) => state.books.pages as number)
   const { id } = useParams<{ id: string }>()
   const { query } = useParams<{ query: string }>()
@@ -22,7 +21,9 @@ export function SearchResults () {
   }, [id])
 
   useEffect(() => {
-    dispatch(fetchSearch(`${query}/${id}`))
+    if (query) {
+      dispatch(fetchSearch(`${query}/${id}`))
+    }
   }, [dispatch, id, query])
 
   interface IBook {
@@ -58,7 +59,7 @@ export function SearchResults () {
     )
   }
 
-  if ('total' in answer && answer.total !== '0' && 'books' in answer) {
+  if ('total' in answer && answer.total !== '0' && 'books' in answer && query) {
     console.log(answer)
 
     return (
