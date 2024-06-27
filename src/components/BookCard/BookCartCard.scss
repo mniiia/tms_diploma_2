@@ -1,0 +1,84 @@
+.cart-card{
+    button{
+        border-radius: 5px;
+        background: black;
+        color: white;
+        box-shadow: 0 0 0px 3px white;
+    }
+    display: flex;
+    height: 300px;
+    justify-content: space-between;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 30px auto;
+    width: 50%;
+    color: white;
+    background: black;
+    box-shadow: 0 0 0px 3px white;
+    .cart-card__cover-container{
+        width: 30%;
+        height: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .cart-card__cover-container:hover{
+        transform: scale(1.05);
+    }
+    .cart-card__cover{
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size:cover;
+        transform: scale(1.4);
+    }
+    .cart-card__delete:hover{
+        color: red;
+        transform: scale(1);
+    }
+    .cart-card__information{
+        height: 80%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 10px;
+        width: 45%;
+        margin: 30px 0 0 20px;
+        font-size: 20px;
+        .cart-card__amount{
+            font-size: 40px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            button{
+                width: 30%;
+                font-size: 40px;
+            }
+        }
+    }
+    .cart-card__price{
+        text-align: center;
+        width: 25%;
+        font-size: 40px;
+        align-self: center;
+    }
+}
+.cart__calculator{
+    font-size: 40px;
+    position: absolute;
+    background: black;
+    border-radius: 10px;
+    padding: 5px;
+    top:0;
+    right: 0;
+    color: white;
+    box-shadow: 0 0 0px 5px white;
+}
+.cart__empty{
+    color: white;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 40px;
+    text-transform: uppercase;
+}

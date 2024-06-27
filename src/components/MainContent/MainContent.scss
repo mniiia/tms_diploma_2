@@ -1,0 +1,18 @@
+.main-page__buttons{
+    display: flex;
+    margin: auto;
+    width: 70%;
+    justify-content: space-between;
+    .main-page__link{
+        height: 100px;
+        background:black;
+        border-radius: 10%;
+        box-shadow: 0 0 0 3px white;
+        margin: 20px;
+        padding: 20px;
+        transition: 0.3s;
+    }
+    .main-page__link:hover{
+        box-shadow: 0 0 0 7px white;
+    }
+}

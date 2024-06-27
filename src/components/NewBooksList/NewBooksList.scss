@@ -1,0 +1,21 @@
+.books__container{
+    margin: auto;
+    display: grid;
+    // grid-template-rows: repeat(3,1fr);
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.search__results{
+    color: white;
+    font-size: 40px;
+    margin-left: 25px;
+    margin-top: 20px;
+    padding: 10px;
+}
+.books__text{
+    color: white;
+    font-size: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
