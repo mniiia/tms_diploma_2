@@ -1,6 +1,6 @@
-import { IBookDetails } from '../components/BookOverview/BookOverview'
+import { IBookDetails } from '../../interfaces/bookDetails'
 
-export function getFavoriteFromLc () {
+export function getFavoriteFromLocalStorage () {
   const books:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string)
   return books
 }

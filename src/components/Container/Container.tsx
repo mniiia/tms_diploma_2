@@ -1,8 +1,12 @@
+import { ReactNode } from 'react'
 import './Container.scss'
-import { ElementProps } from '../../interfaces/ElementProps'
+
+interface ElementProps{
+  children:ReactNode
+}
 
 export function Container ({ children }:ElementProps) {
   return (
-        <div className="container">{children}</div>
+      <div className="container">{children}</div>
   )
 }

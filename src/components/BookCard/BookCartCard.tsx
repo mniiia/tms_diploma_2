@@ -1,28 +1,17 @@
-import { ReactNode, useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
-import './BookCartCard.scss'
-import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
+import { useState } from 'react'
+import { IBookDetails } from '../../interfaces/bookDetails'
+import { getCartFromLocalStorage } from '../../helpers/getCartFromLocalStorage'
 import { addAmount, removeAmount, setAmount } from '../../redux/cart-amount-slice'
 import { useDispatch } from 'react-redux'
 import { CiTrash } from 'react-icons/ci'
+import { ExtendedCardProps } from '../../interfaces/cardProps'
+import { NavLink } from 'react-router-dom'
+import './BookCartCard.scss'
 
-interface CardProps{
-    id?:string;
-    image?:string;
-    title?:string;
-    price?:string;
-    authors?:string;
-    year?:string;
-    calculateSum?:(sum:number)=>void;
-    amount:number
-}
-
-export function BookCartCard ({ id, image, title, price, authors, year, calculateSum, amount }:CardProps) {
+export function BookCartCard ({ id, image, title, price, authors, year, calculateSum, amount }:ExtendedCardProps) {
   const [sum, setSum] = useState<number>((price ? +price.slice(1) : 0) * amount as number)
   const [newAmount, setNewAmount] = useState<number>(amount as number)
   const dispatch = useDispatch()
-  console.log(newAmount)
 
   function deleteBookFromLocalStorage () {
     const books:IBookDetails[] = JSON.parse(localStorage.getItem('cart') as string)
@@ -36,7 +25,7 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
   }
 
   function changeAmount (value: boolean) {
-    const books = getCartFromLc()
+    const books = getCartFromLocalStorage()
     if (books) {
       for (let i = 0; i < books.length; i++) {
         if (books[i].isbn13 === id) {
@@ -70,34 +59,22 @@ export function BookCartCard ({ id, image, title, price, authors, year, calculat
 
   const displaySum:string = `$${sum.toFixed(2)}`
 
-  if (title) {
-    return (
-        <div className="cart-card" id={id}>
-            <div className="cart-card__cover-container" >
-                <div className='cart-card__cover' style={{ backgroundImage: `url(${image})` }}></div>
-            </div>
-            <div className='cart-card__information'>
-                <h4 className="cart-card__title">{title}</h4>
-                <p className='cart-card__text'>by {authors}, Apress {year}</p>
-                <div className='cart-card__amount'>
-                        <button className='remove' onClick={handleRemoveSum}>-</button>
-                        <p className='amount'>{newAmount}</p>
-                        <button className='add' onClick={handleAddSum}>+</button>
-                </div>
-                <button onClick={deleteBookFromLocalStorage} className='cart-card__delete'><CiTrash size={40}/></button>
-            </div>
-            <div className="cart-card__price">{displaySum}</div>
-        </div>
-    )
-  }
-
   return (
-        <div className="cart-card">
-            <div className='cart-card__cover' style={{ backgroundImage: "url('https://dummyimage.com/200')" }}>
-            </div>
-            <h4 className="cart-card__title">Loading title...</h4>
-            <div className="cart-card__subtitle">Loading subtitle...</div>
-            <div className="cart-card__price">Loading price...</div>
+      <div className="cart-card" id={id}>
+        <NavLink to={`/book/${id}`} className="cart-card__cover-container" >
+          <div className="cart-card__cover" style={{ backgroundImage: `url(${image})` }}></div>
+        </NavLink>
+        <div className="cart-card__information">
+          <h4 className="cart-card__title">{title}</h4>
+          <p className="cart-card__text">by {authors}, Apress {year}</p>
+          <div className="cart-card__amount">
+            <button className="remove" onClick={handleRemoveSum}>-</button>
+              <p className="amount">{newAmount}</p>
+            <button className="add" onClick={handleAddSum}>+</button>
+          </div>
+          <button onClick={deleteBookFromLocalStorage} className="cart-card__delete"><CiTrash size={40}/></button>
         </div>
+        <div className="cart-card__price">{displaySum}</div>
+      </div>
   )
 }

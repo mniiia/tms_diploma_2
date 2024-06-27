@@ -13,7 +13,6 @@ const favoriteAmountSlice = createSlice({
   initialState,
   reducers: {
     addFavoriteAmount: (state) => {
-      console.log('dobavil')
       state.amount += 1
     },
     removeFavoriteAmount: (state) => {

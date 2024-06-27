@@ -7,25 +7,30 @@
         width: 100%;
         justify-content: space-between;
         margin: auto;
-        background: lightgray;
+        background: black;
         padding: 10px;
         margin-left: -10px;
         border-radius: 10px;
+        box-shadow: 0 0 0px 3px white;
         .page-item{
-    
             .page-link{
                 font-size: 30px;
                 font-weight: bold;
                 padding: 3px;
-                color: black;
+                color: white;
+                background-color: black;
+                border-radius: 3px;
+            }
+            .page-link:hover{
+                box-shadow: 0 0 0px 1px white;
             }
         }
         .page-item.active{
             .page-link{
                 border: 1px solid black;
-                border-radius: 30%;
-                background: black;
-                color: lightgrey;
+                border-radius: 3px;
+                background-color: white;
+                color: black;
             }
         }
     }

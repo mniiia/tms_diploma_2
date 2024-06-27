@@ -2,16 +2,6 @@ import { NavLink } from 'react-router-dom'
 import './Pagination.scss'
 
 export function buildPaginationScheme (currentPage: number, pagesCount: number): (number)[] {
-  // const pages:string[] = [`${1}`, `${currentPage}`, `${pagesCount}`]
-
-  // if (currentPage === pagesCount) {
-  //   pages.pop()
-  //   console.log(pages)
-  // }
-  // if (currentPage === 1) {
-  //   pages.shift()
-  // }
-
   const prevPageNumber:number = currentPage - 1
   const nextPageNumber:number = currentPage + 1
 
@@ -21,7 +11,11 @@ export function buildPaginationScheme (currentPage: number, pagesCount: number):
   const result = Array.from(set) // обратно приводим к массиву
 
   if (result[0] + 1 !== result[1]) result.splice(1, 0, -1) // если между первым и вторым элементом пропуск, вставляем ...
-  if (result.at(-2) + 1 !== result.at(-1)) result.splice(result.length - 1, 0, -1) // если между последним и предпоследним пропуск, вставляем ...
+  const lastElement = result[result.length - 1]
+  const secondLastElement = result[result.length - 2]
+  if (secondLastElement + 1 !== lastElement) {
+    result.splice(result.length - 1, 0, -1)
+  } // если между последним и предпоследним пропуск, вставляем ...
 
   return result
 }
@@ -29,7 +23,7 @@ export function buildPaginationScheme (currentPage: number, pagesCount: number):
 export function renderPagination (pagesCount: number, currentPage: number, link: string) {
   if (!pagesCount) return null
 
-  const paginationScheme = buildPaginationScheme(currentPage, pagesCount) // исправленный вызов функции
+  const paginationScheme = buildPaginationScheme(currentPage, pagesCount)
 
   return (
       <ul className="pagination">

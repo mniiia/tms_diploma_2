@@ -1,23 +1,41 @@
 *{
   font-family: 'Montserrat',sans-serif;
   font-weight: 600;
-  
-	padding: 0px;
-	margin: 0px;
-	border: none;
-
-	a{
-		color: white;
-		text-decoration: none;
-	}
-
-	.app__page{
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  a{
+	color: white;
+	text-decoration: none;
+	transition: 0.3s;
+  }
+  a:hover{
+	transform: scale(1.2);
+  }
+  a:active{
+	transform: scale(0.5);
+  }
+  button{
+	transition: 0.3s;
+  }
+  button:hover{
+	transform: scale(1.1);
+  }
+  button:active{
+	transform: scale(0.5);
+  }
+  button.disabled:hover{
+	transform: scale(1);
+  }
+  .app__page{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: black;
+	height: 100vh;
 		.app__main{
-			background-color: white;
+      position: relative;
+			background-color: black;
 		}
 	}
 }
@@ -42,7 +60,6 @@
 ::-webkit-scrollbar-corner {
     background: #f1f1f1; /* цвет углового элемента */
 }
-
 body{
 	overflow-y: scroll; 
 	overflow-x: hidden;

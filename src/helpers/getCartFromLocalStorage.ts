@@ -1,6 +1,6 @@
-import { IBookWithAmount } from '../components/BookOverview/BookOverview'
+import { IBookWithAmount } from '../../interfaces/bookDetails'
 
-export function getCartFromLc () {
+export function getCartFromLocalStorage () {
   const books:IBookWithAmount[] = JSON.parse(localStorage.getItem('cart') as string)
   return books
 }

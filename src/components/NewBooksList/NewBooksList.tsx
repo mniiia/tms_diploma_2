@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { BookCard } from '../BookCard/BookCard'
 import { Container } from '../Container/Container'
-import './NewBooksList.scss'
 import { useEffect } from 'react'
 import { fetchNewBooks } from '../../redux/books-slice'
 import { AppDispatch, RootState } from '../../redux/store'
 import { useParams } from 'react-router-dom'
 import { renderPagination } from '../Pagination/Pagination'
+import { IBook } from '../../interfaces/book'
+import { PageName } from '../PageName/PageName'
+import './NewBooksList.scss'
 
 export function NewBooksList () {
   const dispatch = useDispatch<AppDispatch>()
@@ -15,24 +17,14 @@ export function NewBooksList () {
   const pagesCount = useSelector((state: RootState) => state.books.pages as number)
   const { id } = useParams<{ id: string }>()
 
+  // Прокрутка страницы вверх при изменении параметра id
   useEffect(() => {
-    // Прокрутка страницы вверх при изменении параметра id
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [id])
 
   useEffect(() => {
     dispatch(fetchNewBooks())
   }, [dispatch])
-
-  interface IBook {
-    image: string,
-    isbn13: string,
-    price: string,
-    subtitle: string,
-    title: string,
-    url: string,
-    amount?: number
-  }
 
   function BookCardList (booksList: IBook[]) {
     const newBookList = []
@@ -59,6 +51,7 @@ export function NewBooksList () {
   if (answer && 'books' in answer) {
     return (
       <Container>
+        <PageName>new</PageName>
         <div className='books__container'>
           {BookCardList(answer.books)}
         </div>

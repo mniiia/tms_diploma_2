@@ -4,7 +4,6 @@ import { requestBook } from '../service/book'
 export const fetchBook = createAsyncThunk('books/fetchBook', async (id:string, { rejectWithValue }) => {
   try {
     const book = await requestBook(id)
-    console.log(book)
     return book
   } catch (e) {
     if (e instanceof Error) {
@@ -40,7 +39,6 @@ const bookSlice = createSlice({
       })
       .addCase(fetchBook.fulfilled, (state, action) => {
         state.isLoading = false
-        console.log(action.payload)
         state.answer = action.payload
         state.id = action.payload.isbn13
       })

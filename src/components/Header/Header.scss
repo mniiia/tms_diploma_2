@@ -7,8 +7,7 @@
     position: sticky;
     top: 0;
     z-index: 2;
-    // padding-left: calc(100vw - 100%);
-    // padding-right: 0;
+    border-bottom: 2px solid white;
     .header__container{
         margin: auto;
         display: flex;
@@ -21,26 +20,30 @@
             margin-right: 30px;
         }
         .search-form{
-            margin-left: -90px;
+            margin-left: -15px;
             justify-content: space-between;
             width: 400px;
             height: 50px;
             display: flex;
-            background: lightgray;
+            background: black;
             border-radius: 10px;
+            color: white;
+            box-shadow: 0 0 0px 5px white;
             .search-form__input{
                 outline: none;
                 width: 90%;
                 height: 100%;
                 padding: 10px;
                 font-size: 30px;
-                background: lightgrey;
+                background: black;
                 border-radius: 10px;
+                color: white;
             }
             .search-form__button{
                 padding-right:5px;
                 color: black;
                 align-self: center;
+                color: white;
             }
         }
         .header__button-group{

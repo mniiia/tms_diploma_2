@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { MdFiberNew } from 'react-icons/md'
 import { CiShoppingCart, CiHeart } from 'react-icons/ci'
-
 import './MainContent.scss'
 import { Container } from '../Container/Container'
 

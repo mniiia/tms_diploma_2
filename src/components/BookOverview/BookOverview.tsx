@@ -5,28 +5,11 @@ import React, { useEffect, useState } from 'react'
 import { fetchBook } from '../../redux/book-slice'
 import { useParams } from 'react-router-dom'
 import { addAmount } from '../../redux/cart-amount-slice'
-import './BookOverwiew.scss'
-import { getCartFromLc } from '../../helpers/getCartFromLocalStorage'
 import { CiStar, CiHeart } from 'react-icons/ci'
-import { getFavoriteFromLc } from '../../helpers/getFavoriteFromLocalStorage'
 import { addFavoriteAmount, removeFavoriteAmount } from '../../redux/favorite-amount-slice'
-
-export interface IBookDetails {
-  title: string;
-  image: string;
-  price: string;
-  authors: string;
-  publisher: string;
-  language: string;
-  desc: string;
-  isbn13:string;
-  year:string;
-  rating:string;
-}
-
-export interface IBookWithAmount extends IBookDetails{
-  amount?:number;
-}
+import { IBookDetails } from '../../interfaces/bookDetails'
+import { checkInCartLocalStorage, addBookToCartLocalStorage, checkInFavoriteLocalStorage, addBookToFavoriteLocalStorage, removeBookFromFavoriteLocalStorage } from '../../helpers/bookOverwiewHelpers'
+import './BookOverwiew.scss'
 
 export function BookOverview () {
   const dispatch = useDispatch<AppDispatch>()
@@ -36,86 +19,6 @@ export function BookOverview () {
   const [selectedButton, setSelectedButton] = useState<string>('description-btn')
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
-  function checkInCartLC () {
-    const books:IBookWithAmount[] = getCartFromLc() ? getCartFromLc() : []
-    for (let index = 0; index < books.length; index++) {
-      if (id === books[index].isbn13) {
-        return true
-      }
-    }
-    return false
-  }
-
-  function handleAddToCart (event:React.MouseEvent<HTMLButtonElement>) {
-    const target = event.target as HTMLAnchorElement
-    target.setAttribute('disabled', '')
-    target.classList.add('disabled')
-    dispatch(addAmount())
-    addBookToCartLC(answer)
-  }
-
-  function addBookToCartLC (book:IBookDetails) {
-    if (localStorage.getItem('cart')) {
-      const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('cart') as string) as IBookDetails[]
-      const bookWithAmount:IBookWithAmount = { ...book, amount: 1 }
-      localStorageData.push(bookWithAmount)
-      localStorage.setItem('cart', JSON.stringify(localStorageData))
-      return
-    }
-    const localStorageData:IBookDetails[] = []
-    const bookWithAmount:IBookWithAmount = { ...book, amount: 1 }
-    localStorageData.push(bookWithAmount)
-    localStorage.setItem('cart', JSON.stringify(localStorageData))
-  }
-
-  function checkInFavoriteLC () {
-    const books:IBookDetails[] = getFavoriteFromLc() ? getFavoriteFromLc() : []
-    for (let index = 0; index < books.length; index++) {
-      if (id === books[index].isbn13) {
-        return true
-      }
-    }
-    return false
-  }
-
-  function handleAddToFavorite (event:React.MouseEvent<HTMLButtonElement>) {
-    const target = event.target as HTMLAnchorElement
-    target.classList.add('active')
-    addBookToFavoriteLS(answer)
-    setIsFavorite(true)
-    dispatch(addFavoriteAmount())
-  }
-
-  function handleRemoveFromFavorite (event:React.MouseEvent<HTMLButtonElement>) {
-    const target = event.target as HTMLAnchorElement
-    target.classList.remove('active')
-    removeBookFromFavoriteLS(answer)
-    setIsFavorite(false)
-    dispatch(removeFavoriteAmount())
-  }
-
-  function addBookToFavoriteLS (book:IBookDetails) {
-    if (localStorage.getItem('favorite')) {
-      const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string) as IBookDetails[]
-      localStorageData.push(book)
-      localStorage.setItem('favorite', JSON.stringify(localStorageData))
-      return
-    }
-    const localStorageData:IBookDetails[] = []
-    localStorageData.push(book)
-    localStorage.setItem('favorite', JSON.stringify(localStorageData))
-  }
-
-  function removeBookFromFavoriteLS (book:IBookDetails) {
-    const localStorageData:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string) as IBookDetails[]
-    for (let index = 0; index < localStorageData.length; index++) {
-      if (localStorageData[index].isbn13 === book.isbn13) {
-        localStorageData.splice(index, 1)
-      }
-    }
-    localStorage.setItem('favorite', JSON.stringify(localStorageData))
-  }
-
   useEffect(() => {
     if (id !== undefined) {
       dispatch(fetchBook(id))
@@ -123,8 +26,32 @@ export function BookOverview () {
   }, [id])
 
   useEffect(() => {
-    setIsFavorite(checkInFavoriteLC())
-  }, [answer])
+    checkInFavoriteLocalStorage(id ?? '')
+  }, [answer, isFavorite])
+
+  function handleAddToCart (event:React.MouseEvent<HTMLButtonElement>) {
+    const target = event.target as HTMLAnchorElement
+    target.setAttribute('disabled', '')
+    target.classList.add('disabled')
+    dispatch(addAmount())
+    addBookToCartLocalStorage(answer)
+  }
+
+  function handleAddToFavorite (event:React.MouseEvent<HTMLButtonElement>) {
+    const target = event.target as HTMLAnchorElement
+    target.classList.add('active')
+    addBookToFavoriteLocalStorage(answer)
+    setIsFavorite(true)
+    dispatch(addFavoriteAmount())
+  }
+
+  function handleRemoveFromFavorite (event:React.MouseEvent<HTMLButtonElement>) {
+    const target = event.target as HTMLAnchorElement
+    target.classList.remove('active')
+    removeBookFromFavoriteLocalStorage(answer)
+    setIsFavorite(false)
+    dispatch(removeFavoriteAmount())
+  }
 
   function handleChangeSectionClick (event:React.MouseEvent<HTMLButtonElement>) {
     const target = event.target as HTMLElement
@@ -132,7 +59,7 @@ export function BookOverview () {
   }
 
   function renderAddToCartButton () {
-    if (checkInCartLC()) {
+    if (checkInCartLocalStorage(id ?? '')) {
       return (
         <button className="book__cart-btn disabled" disabled onClick={handleAddToCart}>
           ADD TO CART
@@ -147,7 +74,7 @@ export function BookOverview () {
   }
 
   function renderAddToFavoriteButton () {
-    if (checkInFavoriteLC()) {
+    if (checkInFavoriteLocalStorage(id ?? '')) {
       return (
         <button className="book__favorite-btn active" onClick={handleRemoveFromFavorite}>
         <CiHeart size={50}/>
@@ -164,7 +91,9 @@ export function BookOverview () {
   function renderBookInfo () {
     return (
         <div className="book__information">
-            <div className="book__cover" style={{ backgroundImage: `url(${answer.image})` }}></div>
+            <div className='book__cover-container'>
+              <div className="book__cover" style={{ backgroundImage: `url(${answer.image})` }}></div>
+            </div>
             <div className="book__short-information-container">
                 <div className="book__short-information">
                     <div className="book__row book__price">
@@ -222,9 +151,9 @@ export function BookOverview () {
         return (
             <div className="book__description">
               <div className="book__buttons-container">
-                  <button className="description-btn book__button" onClick={handleChangeSectionClick}>description</button>
-                  <button className="authors-btn book__button " onClick={handleChangeSectionClick}>authors</button>
-                  <button className="reviews-btn book__button active" onClick={handleChangeSectionClick}>reviews</button>
+                <button className="description-btn book__button" onClick={handleChangeSectionClick}>description</button>
+                <button className="authors-btn book__button " onClick={handleChangeSectionClick}>authors</button>
+                <button className="reviews-btn book__button active" onClick={handleChangeSectionClick}>reviews</button>
               </div>
             <p className="description">review</p>
         </div>

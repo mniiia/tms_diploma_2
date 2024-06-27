@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { BookCard } from '../BookCard/BookCard'
 import { Container } from '../Container/Container'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { fetchSearch } from '../../redux/books-slice'
 import { AppDispatch, RootState } from '../../redux/store'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { renderPagination } from '../Pagination/Pagination'
+import { IBook } from '../../interfaces/book'
 
 export function SearchResults () {
   const dispatch = useDispatch<AppDispatch>()
@@ -14,8 +15,8 @@ export function SearchResults () {
   const { id } = useParams<{ id: string }>()
   const { query } = useParams<{ query: string }>()
 
+  // Прокрутка страницы вверх при изменении параметра id
   useEffect(() => {
-    // Прокрутка страницы вверх при изменении параметра id
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [id])
 
@@ -24,16 +25,6 @@ export function SearchResults () {
       dispatch(fetchSearch(`${query}/${id}`))
     }
   }, [dispatch, id, query])
-
-  interface IBook {
-    image: string,
-    isbn13: string,
-    price: string,
-    subtitle: string,
-    title: string,
-    url: string,
-    amount?: number
-  }
 
   function BookCardList (booksList: IBook[]) {
     const newBookList = []
@@ -59,17 +50,15 @@ export function SearchResults () {
   }
 
   if ('total' in answer && answer.total !== '0' && 'books' in answer && query) {
-    console.log(answer)
-
     return (
       <Container>
-        <div className='search__results'>
+        <div className="search__results">
             <p>Search results for: &quot;{query}&quot;</p>
         </div>
-        <div className='books__container'>
+        <div className="books__container">
           {BookCardList(answer.books)}
         </div>
-        <div className='pagination__container'>
+        <div className="pagination__container">
           {renderPagination(pagesCount, id ? parseInt(id, 10) : 1, `/search/${query}/`)}
         </div>
       </Container>
@@ -78,11 +67,8 @@ export function SearchResults () {
 
   return (
     <Container>
-        <div className='books__text'>
-            <p className='search__results'>
-                Search results for: &quot; {query} &quot;
-            </p>
-            <p className='no-results'>
+        <div className="books__text">
+            <p className="no-results">
                 NO RESULTS
             </p>
         </div>

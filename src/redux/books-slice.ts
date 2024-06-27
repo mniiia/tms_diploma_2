@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { requestNewBooks, requestSearch } from '../service/book'
+import { IBooksState } from '../interfaces/book'
 
 export const fetchNewBooks = createAsyncThunk('books/fetchNewBooks', async (_, { rejectWithValue }) => {
   try {
@@ -16,7 +17,6 @@ export const fetchNewBooks = createAsyncThunk('books/fetchNewBooks', async (_, {
 export const fetchSearch = createAsyncThunk('books/fetchSearch', async (params:string, { rejectWithValue }) => {
   try {
     const post = await requestSearch(params)
-    console.log(params, post)
     return post
   } catch (e) {
     if (e instanceof Error) {
@@ -25,26 +25,6 @@ export const fetchSearch = createAsyncThunk('books/fetchSearch', async (params:s
     return rejectWithValue('unknown error')
   }
 })
-
-interface IBook {
-  image: string;
-  isbn13: string;
-  price: string;
-  subtitle: string;
-  title: string;
-  url: string;
-}
-
-interface IBooksState {
-  answer: {
-    total:string;
-    books: IBook[];
-  } | object;
-  pages:number
-  isLoading: boolean;
-  error: string | null;
-  amountOnPage:number;
-}
 
 const initialState: IBooksState = {
   answer: {},

@@ -1,22 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../../redux/store'
-import { useParams } from 'react-router-dom'
-import { IBookDetails, IBookWithAmount } from '../BookOverview/BookOverview'
-import { BookCartCard } from '../BookCard/BookCartCard'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import { IBookDetails } from '../../interfaces/bookDetails'
 import { Container } from '../Container/Container'
-import '../BookCard/BookCartCard.scss'
 import { BookFavoriteCard } from '../BookCard/BookFavoriteCard'
 import { useEffect } from 'react'
-
-// export interface IBookDetails {
-//     title: string;
-//     image: string;
-//     price: string;
-//     authors: string;
-//     publisher: string;
-//     language: string;
-//     desc: string;
-// }
+import { PageName } from '../PageName/PageName'
+import '../BookCard/BookCartCard.scss'
 
 export function FavoriteBooksList () {
   const favoriteAmount = useSelector((state:RootState) => state.favorite.amount)
@@ -32,10 +21,10 @@ export function FavoriteBooksList () {
 
   if (JSON.parse(localStorage.getItem('favorite') as string) && JSON.parse(localStorage.getItem('favorite') as string).length) {
     const booksList:IBookDetails[] = JSON.parse(localStorage.getItem('favorite') as string)
-    console.log(booksList)
 
     return (
         <Container>
+            <PageName>Favorite</PageName>
             {BookCardList(booksList)}
         </Container>
     )
@@ -43,7 +32,7 @@ export function FavoriteBooksList () {
 
   return (
     <Container>
-      <div className='cart__empty'>Favorite is empty</div>
+      <div className="cart__empty">Favorite is empty</div>
     </Container>
   )
 }

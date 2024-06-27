@@ -1,24 +1,22 @@
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
-import { IBookWithAmount } from '../BookOverview/BookOverview'
+import { IBookWithAmount } from '../../interfaces/bookDetails'
 import { BookCartCard } from '../BookCard/BookCartCard'
 import { Container } from '../Container/Container'
-import '../BookCard/BookCartCard.scss'
 import { useEffect, useState } from 'react'
-
-// export interface IBookDetails {
-//     title: string;
-//     image: string;
-//     price: string;
-//     authors: string;
-//     publisher: string;
-//     language: string;
-//     desc: string;
-// }
+import { PageName } from '../PageName/PageName'
+import '../BookCard/BookCartCard.scss'
 
 export function CartBooksList () {
   const [sum, setSum] = useState<number>(0)
   const cartAmount = useSelector((state:RootState) => state.cart.amount)
+
+  useEffect(() => {
+  }, [cartAmount])
+
+  useEffect(() => {
+    calcFirstSum()
+  }, [])
 
   function calcFirstSum () {
     if (JSON.parse(localStorage.getItem('cart') as string)) {
@@ -27,12 +25,15 @@ export function CartBooksList () {
       for (let index = 0; index < books.length; index++) {
         const amount:number = books[index].amount ?? 1
         firstSum += (+(books[index].price.slice(1)) * amount)
-        console.log(books[index].price)
       }
       setSum(firstSum)
       return firstSum
     }
     return 0
+  }
+
+  function calculateSum (oneBookSum:number) {
+    setSum(prevSum => prevSum + oneBookSum)
   }
 
   function BookCardList (booksList:IBookWithAmount[]) {
@@ -53,27 +54,15 @@ export function CartBooksList () {
       ></BookCartCard>
   }
 
-  function calculateSum (oneBookSum:number) {
-    console.log(oneBookSum + sum)
-    setSum(prevSum => prevSum + oneBookSum)
-  }
-
-  useEffect(() => {
-  }, [cartAmount])
-
-  useEffect(() => {
-    calcFirstSum()
-  }, [])
-
   if (JSON.parse(localStorage.getItem('cart') as string) && JSON.parse(localStorage.getItem('cart') as string).length) {
     const booksList:IBookWithAmount[] = JSON.parse(localStorage.getItem('cart') as string)
-    console.log(booksList)
 
     return (
         <Container>
+            <PageName>Cart</PageName>
             {BookCardList(booksList)}
             <div className='cart__calculator'>
-                TOTAL: {`$${sum.toFixed(2)}`}
+              TOTAL: {`$${sum.toFixed(2)}`}
             </div>
         </Container>
     )

@@ -13,7 +13,6 @@ const cartAmountSlice = createSlice({
   initialState,
   reducers: {
     addAmount: (state) => {
-      console.log('dobavil')
       state.amount += 1
     },
     removeAmount: (state) => {

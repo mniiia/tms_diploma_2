@@ -3,24 +3,35 @@
     text-align: center;
     width: 100%;
 }
-
 .book__information{
     width: 100%;
-    margin: auto;
+    margin: 0 auto 40px;
     font-size: 20px;
     display: flex;
-    .book__cover{
-        width: 50%;
-        min-height: 900px;
-        background-repeat: no-repeat;
-        background-size: cover;
+    justify-content: space-around;
+    .book__cover-container{
+        width: 30%;
+        min-height: 700px;
+        box-shadow: 0 0 0px 5px white;
+        border-radius: 10px;
+        overflow: hidden;
+        .book__cover{
+            width: 100%;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.4);
+        }
     }
     .book__short-information-container{
         width: 30%;
         align-content: center;
         justify-content: center;
         .book__short-information{
-            background: lightgrey;
+            background: black;
+            box-shadow: 0 0 0px 5px white;
+            color: white;
             border-radius: 10px;
             align-self: center;
             display: flex;
@@ -50,8 +61,9 @@
             }
         }
         .book__cart-btn{
+            box-shadow: 0 0 0px 5px white;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 40px;
             border-radius: 10px;
             padding: 10px 30px;
             font-size: 50px;
@@ -63,6 +75,7 @@
             color:  white;
         }
         .book__favorite-btn{
+            box-shadow: 0 0 0px 5px white;
             width: 100%;
             margin-top: 20px;
             border-radius: 10px;
@@ -73,25 +86,27 @@
         }
         .book__favorite-btn.active{
 
-            color:  red;
+            color:red;
         }
     }
-
-
 }
 .book__description{
     font-size: 30px;
     .book__buttons-container{
+        margin-bottom: 20px;
         .book__button{
             border-radius: 10px;
             padding: 10px;
             font-size: 30px;
             margin: 20px;
             text-transform: uppercase;
-            background: none;
+            background: white;
+            color: black;
         }
         .book__button.active{
-            background: lightgrey;
+            background: black;
+            box-shadow: 0 0 0px 3px white;
+            color: white;
         }
     }
     .description{
@@ -99,7 +114,9 @@
         min-height: 150px;
         padding: 20px;
         margin-bottom: 20px;
-        background:lightgrey
+        background:black;
+        color:white;
+        box-shadow: 0 0 0px 5px white;
     }
 }
 

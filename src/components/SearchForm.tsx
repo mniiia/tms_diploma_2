@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 import { CiSearch } from 'react-icons/ci'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { correctString } from '../helpers/correctSring'
 
 export function SearchForm () {
   const [request, setRequest] = useState<string>('')
   const navigate = useNavigate()
 
   function handleChange (event:React.ChangeEvent<HTMLInputElement>) {
-    console.log('changed', event.target.value)
-    const requestWithOutSpace:string = event.target.value.replace(/ /g, '')
-    const requestWithoutHash:string = requestWithOutSpace.replace(/#/g, '')
-    setRequest(requestWithoutHash)
+    setRequest(correctString(event.target.value))
   }
 
   function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
@@ -30,9 +28,9 @@ export function SearchForm () {
   }
 
   return (
-        <form className="search-form" action="submit" onSubmit={handleSubmit}>
-            <input onChange={handleChange} className="search-form__input" type="search" />
-            <NavLink to={`/search/${request}/1`} onClick={handleClickClear} className="search-form__button"><CiSearch size={40}/></NavLink>
-        </form>
+      <form className="search-form" action="submit" onSubmit={handleSubmit}>
+        <input onChange={handleChange} className="search-form__input" type="search" />
+        <NavLink to={`/search/${request}/1`} onClick={handleClickClear} className="search-form__button"><CiSearch size={40}/></NavLink>
+      </form>
   )
 }
